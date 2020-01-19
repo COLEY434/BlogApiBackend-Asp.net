@@ -66,8 +66,8 @@ namespace blogApi
             })
                 .AddJwtBearer(x =>
                 {
-                    //Remove this line of code when pushing to production
-                    x.RequireHttpsMetadata = false;
+                    //Remove this line of code when pushing to production to true
+                    x.RequireHttpsMetadata = true;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
