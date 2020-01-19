@@ -56,7 +56,7 @@ namespace blogApi.Controllers
 
                 if(comments == null)
                 {
-                    return Ok(new { success = false, message = "No comments for this post"});
+                    return Ok(new { success = false, message = "No comment for this post"});
                 }
                 return Ok(new { success = true, comments = comments });
             }
