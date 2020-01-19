@@ -76,8 +76,6 @@ namespace blogApi
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
-                        // ValidIssuer = "https://localhost:44318/",
-                        // ValidAudience = "http://localhost:8080/",
                         ClockSkew = TimeSpan.Zero
                     };
                 });
