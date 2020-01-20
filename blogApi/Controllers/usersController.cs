@@ -11,11 +11,14 @@ using blogApi.DAL.Login;
 using blogApi.Interfaces;
 using Microsoft.AspNetCore.Cors;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace blogApi.Controllers
 {
     [Route("api/user")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class usersController : ControllerBase
     {
         private IRepositoryUnitOfWork uow;
