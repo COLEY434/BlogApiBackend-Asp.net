@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Cors;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Azure.Storage.Blobs;
 
 namespace blogApi.Controllers
 {
@@ -145,50 +146,75 @@ namespace blogApi.Controllers
             var maxSize = 5000000;
             var fileNameAndExtension = file.FileName;
             var fileExtension = Path.GetExtension(fileNameAndExtension);
-            var fileName = Path.GetFileNameWithoutExtension(fileNameAndExtension);
             string[] allowedExtensions = { ".jpg", ".png", ".jpeg" };
 
-            bool isUploaded = false;
+            //bool isUploaded = false;
 
             if (file.Length < maxSize)
             {
                 if (allowedExtensions.Contains(fileExtension))
                 {
-                    var NewFileName = userId + "-Profile_Pics-" + fileName + fileExtension;
+                    
+                    //var destinationPath = Path.Combine(@"C:\Users\user\Pictures\Images\ProfilePictures", NewFileName);                    
+                    // var img_url = $"http://127.0.0.1:8887/ProfilePictures/{NewFileName}";
 
-                   var destinationPath = Path.Combine(@"C:\Users\user\Pictures\Images\ProfilePictures", NewFileName);
-
-                    var img_url = $"http://127.0.0.1:8887/ProfilePictures/{NewFileName}";
-
-
-
-                    using (var fileStream = new FileStream(destinationPath, FileMode.Create))
+                    var NewFileNameForAzure = userId + "-" + Guid.NewGuid() + fileExtension;
+                    var connectionString = "DefaultEndpointsProtocol=https;AccountName=collinsazurestorage434;AccountKey=dlvvVNb0SC5AzAwHADZTy/+2h1xLSCnXDvu0huySWH56zVQBXnuISg6Q7LRTD9AZRtqW0R9yzGqUJFYhUtoAbA==;EndpointSuffix=core.windows.net";
+                    //connect to azure storage
+                    BlobContainerClient containerClient = new BlobContainerClient(connectionString, "img");
+                    // Get a reference to a blob
+                    BlobClient blobClient = containerClient.GetBlobClient(NewFileNameForAzure);
+                    try
                     {
-                        await file.CopyToAsync(fileStream);
-
-                        isUploaded = true;
-
-                        if(isUploaded)
+                        var uri = "";
+                        using (Stream filetoupload = file.OpenReadStream())
                         {
-                            try
-                            {
-                                User.img_url = img_url;
-                                User.updated_at = DateTime.Now;
-
-                                uow.User.Update(User);
-                                await uow.save();
-
-                                return Ok(new { success = true, message = "Image Uploaded Successfully", pic = img_url });
-                            }
-                            catch(Exception ex)
-                            {
-                                return Ok(ex.Message);
-                            }
-
+                            await blobClient.UploadAsync(filetoupload);
+                             uri = blobClient.Uri.AbsoluteUri;
                         }
 
+                        User.img_url = uri;
+                        User.updated_at = DateTime.Now;
+
+                        uow.User.Update(User);
+                        await uow.save();
+
+                        return Ok(new { success = true, message = "Image Uploaded Successfully", pic = uri });
 
                     }
+                    catch(Exception e)
+                    {
+
+                    }
+
+
+                    //using (var fileStream = new FileStream(destinationPath, FileMode.Create))
+                    //{
+                    //    await file.CopyToAsync(fileStream);
+
+                    //    isUploaded = true;
+
+                    //    if(isUploaded)
+                    //    {
+                    //        try
+                    //        {
+                    //            User.img_url = img_url;
+                    //            User.updated_at = DateTime.Now;
+
+                    //            uow.User.Update(User);
+                    //            await uow.save();
+
+                    //            return Ok(new { success = true, message = "Image Uploaded Successfully", pic = img_url });
+                    //        }
+                    //        catch(Exception ex)
+                    //        {
+                    //            return Ok(ex.Message);
+                    //        }
+
+                    //    }
+
+
+                    //}
                 }
                 return Ok(new { success = false, message = "Please only images with png and Jpg extensions are allowed" });
             }
