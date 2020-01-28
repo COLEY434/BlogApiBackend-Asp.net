@@ -46,37 +46,9 @@ namespace blogApi.DAL.Login.LoginRepository
         }
 
 
-        //Method for authenticating the user
-        public async Task<loginId> ValidateUser(string password, string email)
-        {
-            var result = await FindByCondition(x => x.email == email && x.password == password)
-                                               .Select(x => new loginId
-                                               {
-                                                 Id = x.userId
-                                               }).SingleOrDefaultAsync();
-
-            return result;
-        }
-
         public async Task<users> GetUserByIdT(int id)
         {
             var result = await FindByConditionWithTracking(x => x.userId == id).SingleOrDefaultAsync();
-
-            return result;
-        }
-
-        public async Task<IEnumerable<MaleUserDTO>> GetMaleUsers()
-        {
-            string male = "male";
-            var result = await FindByCondition(x => x.gender == male)
-                .Select(x => new MaleUserDTO
-                {
-                    Id = x.userId,
-                    gender = x.gender,
-                    age = x.age,
-                    firstname = x.firstname
-
-                }).ToListAsync();
 
             return result;
         }

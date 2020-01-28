@@ -31,25 +31,32 @@ namespace blogApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var authResponse = await _authService.AuthenticateUserAsync(request.Email, request.Password);
-
-            if (!authResponse.Success)
+            try
             {
-                return Ok(new AuthFailedResponse
+                var authResponse = await _authService.AuthenticateUserAsync(request.Email, request.Password);
+
+                if (!authResponse.Success)
+                {
+                    return Ok(new AuthFailedResponse
+                    {
+                        Success = authResponse.Success,
+                        ErrorMessage = authResponse.ErrorMesage
+                    });
+                }
+
+                return Ok(new AuthSuccessResponse
                 {
                     Success = authResponse.Success,
-                    ErrorMessage = authResponse.ErrorMesage
+                    UserId = authResponse.UserId,
+                    ExpiresIn = authResponse.ExpiresIn,
+                    Token = authResponse.Token,
+                    Username = authResponse.Username
                 });
             }
-
-            return Ok(new AuthSuccessResponse
-            {
-                Success = authResponse.Success,
-                UserId = authResponse.UserId,
-                ExpiresIn = authResponse.ExpiresIn,
-                Token = authResponse.Token,
-                Username = authResponse.Username
-            });
+            catch(Exception ex)
+            {//add logging to database later
+                return Ok(ex);
+            }
         }
 
         [Route("register")]
@@ -61,21 +68,29 @@ namespace blogApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var CheckIfUserExist = await _authService.FindUserAsync(request.Email, request.Password);
-
-            if (!CheckIfUserExist)
+            try
             {
-                var authResponse = await _authService.RegisterAsync(request.Email, request.Password);
+                var CheckIfUserExist = await _authService.FindUserAsync(request.Email, request.Password);
 
-                return Ok(authResponse);
+                if (!CheckIfUserExist)
+                {
+                    var authResponse = await _authService.RegisterAsync(request.Email, request.Password);
+
+                    return Ok(authResponse);
+                }
+
+                return Ok(new AuthFailedResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User with this email already exist"
+                });
+            }
+            catch(Exception ex)
+            {
+                //add logging to the database later
+                return Ok(ex);
             }
 
-            return Ok(new AuthFailedResponse 
-            { 
-                Success = false,
-                ErrorMessage = "User with this email already exist"
-            });
-            
         }
     }
 }

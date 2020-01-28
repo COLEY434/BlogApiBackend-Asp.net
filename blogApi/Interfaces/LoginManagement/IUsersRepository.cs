@@ -12,10 +12,6 @@ namespace blogApi.Interfaces.LoginManagement
         Task<IEnumerable<users>> GetAllUsersAsync();
         Task<UserReadDTO> GetUserById(int id);
         Task<users> GetUserByIdT(int id);
-        Task<IEnumerable<MaleUserDTO>> GetMaleUsers();
-
-        Task<loginId> ValidateUser(string password, string email);
-
 
     }
 }

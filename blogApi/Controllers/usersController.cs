@@ -38,7 +38,7 @@ namespace blogApi.Controllers
                 var users = await uow.User.GetAllUsersAsync();
                 if (users == null)
                 {
-                    return NotFound();
+                    return Ok(new {ErrorMessage = "Users not found" });
                 }
 
                 return Ok(users);
@@ -51,27 +51,6 @@ namespace blogApi.Controllers
         }
 
 
-        //Get male users 
-        [HttpGet]
-        [Route("male")]
-        public async Task<IActionResult> GetMalesUsersAsync()
-        {
-            try
-            {
-                var users = await uow.User.GetMaleUsers();
-                if (users == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-
-        }
         // Gets users by id
         [HttpGet]
         [Route("{id}")]
@@ -79,13 +58,13 @@ namespace blogApi.Controllers
         {
             try
             {
-                var users = await uow.User.GetUserById(id);
-                if (users == null)
+                var user = await uow.User.GetUserById(id);
+                if (user == null)
                 {
-                    return NotFound();
+                    return Ok(new { ErrorMessage = "User not found" });
                 }
 
-                return Ok(users);
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -131,6 +110,7 @@ namespace blogApi.Controllers
             }
         }
 
+        //upload user image
         [HttpPost]
         [Route("upload-image/{userId}")]
         public async Task<IActionResult> UploadUserImageAsync([FromRoute] int userId, [FromForm] FileUpload model)
@@ -228,94 +208,10 @@ namespace blogApi.Controllers
 
         }
 
-        // Creates the user record
-        [HttpPost]
-        [Route("create")]
-        public async Task<IActionResult> CreateUserAsync(UserWriteDTO user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-                try
-                {
-                var checkIfUserExist = await uow.User.ValidateUser(user.password, user.email);
-
-                if(checkIfUserExist == null)
-                {
-                    var userInfo = new users();
-
-                    userInfo.firstname = null;
-                    userInfo.surname = null;
-                    userInfo.state = null;
-                    userInfo.gender = null;
-                    userInfo.age = null;
-                    userInfo.created_at = DateTime.Now;
-                    userInfo.updated_at = null;
-                    userInfo.email = user.email;
-                    userInfo.password = user.password;
-                    userInfo.img_url = null;
-                    userInfo.last_logged_In = null;
-                    userInfo.country = null;
-                    userInfo.username = null;
-
-                    uow.User.Create(userInfo);
-                    await uow.save();
-
-
-                    var userExist = await uow.User.ValidateUser(user.password, user.email);
-
-                    if (userExist != null)
-                    {
-                        return Ok(new { success = true, userId = userExist.Id });
-                    }
-                    // return Ok(new { success = true, message = "Logged in successful" });
-                }
-                return Ok(new { success = false, message = "User account exist" });
-            }
-                catch (Exception ex)
-                {
-                    return Ok(ex.Message);
-                }
-
-        }
-
-        //Route for authenticating the user
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> AuthUserAsync(LoginWriteDTO model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Ok(new { error = true });
-            }
-            try
-            {
-                var userExist = await uow.User.ValidateUser(model.password, model.email);
-
-                if (userExist != null)
-                {
-                    return Ok(new { success = true, userId = userExist.Id });
-                }
-                else
-                {
-                    return Ok(new { success = false });
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-
-        }
-
-
-
-
+    
         //DELETE: 
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult<users>> Deleteusers(int id)
+        public async Task<ActionResult<users>> DeleteUserAsync([FromRoute] int id)
         {
             try
             {

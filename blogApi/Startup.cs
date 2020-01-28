@@ -50,7 +50,7 @@ namespace blogApi
             });
             services.AddControllers();
             services.AddDbContext<RepositoryContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
 
             var appSettingSection = Configuration.GetSection("AppSettings");
             services.Configure<JwtSettings>(appSettingSection);
@@ -66,8 +66,8 @@ namespace blogApi
             })
                 .AddJwtBearer(x =>
                 {
-                    //Remove this line of code when pushing to production to true
-                    x.RequireHttpsMetadata = true;
+                    
+                    //x.RequireHttpsMetadata = true;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {

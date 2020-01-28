@@ -56,8 +56,6 @@ namespace blogApi.Services
 
         public async Task<AuthenticationResult> RegisterAsync(string email, string password)
         {
-            try
-            {
                 var userInfo = new users();
                 userInfo.firstname = null;
                 userInfo.surname = null;
@@ -79,12 +77,6 @@ namespace blogApi.Services
                 var newUser = await _dataContext.users.Where(x => x.email == email && x.password == password).SingleOrDefaultAsync();
 
                 return GenerateTokenAsync(newUser);
-
-            }
-            catch(Exception ex)
-            {
-                return null;
-            }
             
         }
         private AuthenticationResult GenerateTokenAsync(users user)

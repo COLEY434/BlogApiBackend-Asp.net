@@ -37,6 +37,7 @@ namespace blogApi.Controllers
             }
             catch(Exception ex)
             {
+
                 return Ok(ex.Message);
             }
            
@@ -162,11 +163,6 @@ namespace blogApi.Controllers
             }
         }
 
-        // PUT: api/Post/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
