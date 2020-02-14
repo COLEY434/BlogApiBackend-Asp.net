@@ -164,10 +164,38 @@ namespace blogApi.Controllers
         }
 
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        //DELETE: 
+        [HttpDelete("delete/{postId}")]
+        public async Task<IActionResult> DeletePostAsync([FromRoute] int postId)
         {
+            try
+            {
+                var post = await uow.Post.GetPostById(postId);
+
+                if (post == null)
+                {
+                    return Ok(new { success = false, message="Post deleted"});
+                }
+
+                var PostComments = await uow.Replies.GetPostComments(postId);
+
+                foreach(var comment in PostComments)
+                {
+                    uow.Replies.Delete(comment);
+                }
+                 
+                uow.Post.Delete(post);
+                await uow.save();
+
+                return Ok(new { success = true, message = "Post deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                //log to database first
+                return Ok(new { success = false, message = "oops!!! something is wrong with the server, please contact the admin" });
+            }
+           
+
         }
     }
 }

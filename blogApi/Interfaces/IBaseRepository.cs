@@ -13,5 +13,6 @@ namespace blogApi.Interfaces
         void Delete(T entity);
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T,bool>> expression);
+        IQueryable<T> FindByConditionWithTracking(Expression<Func<T, bool>> expression);
     }
 }

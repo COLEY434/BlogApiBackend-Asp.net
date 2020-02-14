@@ -17,8 +17,7 @@ namespace blogApi.Entities
         [Required]
         public int post_Id { get; set; }
 
-        public bool? liked { get; set; }
+        public bool liked { get; set; }
 
-        public DateTime? updated_at { get; set; }
     }
 }

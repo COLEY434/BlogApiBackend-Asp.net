@@ -17,6 +17,9 @@ namespace blogApi.DAL
         public DbSet<users> users { get; set; }
         public DbSet<posts> posts { get; set; }
 
+        public DbSet<Likes> likes { get; set; }
+
+
         public DbSet<Replies> Replies { get; set; }
 
         public DbSet<GetPostReadDTO> GetPostReadDTO { get; set; }

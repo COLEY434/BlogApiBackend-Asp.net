@@ -12,6 +12,8 @@ namespace blogApi.Interfaces
         IPostRepository Post { get; }
 
         IReplyPostRepository Replies { get; }
+
+        ILikeRepository Likes { get; }
         Task save();
     }
 }

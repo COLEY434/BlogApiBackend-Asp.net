@@ -164,7 +164,7 @@ namespace blogApi.Controllers
                     }
                     catch(Exception e)
                     {
-
+                        return Ok(e.Message);
                     }
 
 

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace blogApi.Interfaces
 {
-    public interface IReplyPostRepository : IBaseRepository<Replies>
+    public interface ILikeRepository : IBaseRepository<Likes>
     {
-        Task<IEnumerable<Replies>> GetPostComments(int id);
+        Task<List<Likes>> GetLikesAsync();
+        Task<Likes> checkIfLikeExist(int postId, int userId);
     }
 }

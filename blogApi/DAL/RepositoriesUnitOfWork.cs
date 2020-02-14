@@ -15,6 +15,7 @@ namespace blogApi.DAL
         private IUsersRepository _user;
         private IPostRepository _post;
         private IReplyPostRepository _replies;
+        private ILikeRepository _likes;
 
 
         public RepositoriesUnitOfWork(RepositoryContext repositoryContext)
@@ -22,6 +23,17 @@ namespace blogApi.DAL
             this.RepositoryContext = repositoryContext;
         }
 
+        public ILikeRepository Likes
+        {
+            get
+            {
+                if(_likes == null)
+                {
+                    _likes = new LikeRepository(RepositoryContext);
+                }
+                return _likes;
+            }
+        }
        public IReplyPostRepository Replies {
             get { 
                 if(_replies == null)

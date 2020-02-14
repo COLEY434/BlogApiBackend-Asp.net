@@ -20,7 +20,7 @@ namespace blogApi.DAL.Post
         public async Task<List<GetPostReadDTO>> GetPostsAsync()
         {
             var result = await context.GetPostReadDTO.FromSqlRaw("select * from dbo.get_posts").ToListAsync();
-                 
+
             return result;
         }
 
@@ -43,5 +43,7 @@ namespace blogApi.DAL.Post
 
             return result;
         }
+
+
     }
 }
