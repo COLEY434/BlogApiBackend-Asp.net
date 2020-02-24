@@ -29,6 +29,11 @@ namespace blogApi.DAL.Post
             var result = await context.GetPostReadDTO.FromSqlRaw("select * from dbo.get_comments({0})", postId).ToListAsync();
             return result;
         }
+        public async Task<List<posts>> GetUsersPostsAsync(int userId)
+        {
+            var result = await context.posts.Where(post => post.user_id == userId).ToListAsync();
+            return result;
+        }
         public async Task<GetPostReadDTO> GetPostsByIdSingle(int Id)
         {
             var postId = Id;

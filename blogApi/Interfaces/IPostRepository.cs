@@ -10,6 +10,7 @@ namespace blogApi.Interfaces
     public interface IPostRepository : IBaseRepository<posts>
     {
         Task<List<GetPostReadDTO>> GetPostsAsync();
+        Task<List<posts>> GetUsersPostsAsync(int userId);
         Task<posts> GetPostById(int Id);
         Task<GetPostReadDTO> GetPostsByIdSingle(int Id);
         Task<List<GetPostReadDTO>> GetCommentsAsync(int postId);

@@ -38,6 +38,7 @@ namespace blogApi.DAL.Login.LoginRepository
                     gender = x.gender,
                     state = x.state,
                     country = x.country,
+                    date_joined = x.created_at,
                     age = x.age,
                     email = x.email,
                     img_url = x.img_url

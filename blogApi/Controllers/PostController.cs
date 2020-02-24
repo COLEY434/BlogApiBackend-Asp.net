@@ -44,6 +44,25 @@ namespace blogApi.Controllers
         }
 
         [HttpGet]
+        [Route("user/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUserPostsAsync([FromRoute] int userId)
+        {
+            try
+            {
+                var AllPost = await uow.Post.GetUsersPostsAsync(userId);
+
+                return Ok(AllPost);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message);
+            }
+
+        }
+
+        [HttpGet]
         [Route("get-comments/{postId}")]
         public async Task<IActionResult> GetCommentssAsync([FromRoute] int postId)
         {

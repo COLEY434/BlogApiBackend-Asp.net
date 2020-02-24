@@ -19,6 +19,8 @@ namespace blogApi.DTOS.ReadDTO
 
         public string state { get; set; }
 
+        public DateTime date_joined { get; set; }
+
         public string country { get; set; }
 
         public int? age { get; set; }
