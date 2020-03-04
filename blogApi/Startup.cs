@@ -47,17 +47,17 @@ namespace blogApi
 
                 });
             });
-            //if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            //{
-                
-            //}
-            //if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-            //{
-            //    services.AddDbContext<RepositoryContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
-            //}
-            services.AddDbContext<RepositoryContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<RepositoryContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                services.AddDbContext<RepositoryContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
+            }
+           
             services.AddControllers();
             
             
