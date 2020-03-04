@@ -43,9 +43,8 @@ namespace blogApi
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://collinsblog.netlify.com").AllowAnyHeader().AllowAnyMethod();
+                    builder.WithOrigins("https://collinsblog.netlify.com");
 
-                    
                 });
             });
             //if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
@@ -103,18 +102,17 @@ namespace blogApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(MyAllowSpecificOrigins);
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-           app.UseAuthentication();
+            app.UseCors(MyAllowSpecificOrigins);
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
            
-
-
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
