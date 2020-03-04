@@ -43,7 +43,7 @@ namespace blogApi
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://collinsblog.netlify.com");
+                    builder.WithOrigins("https://collinsblog.netlify.com").AllowAnyHeader();
 
                 });
             });
