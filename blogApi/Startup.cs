@@ -35,7 +35,7 @@ namespace blogApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IHostEnvironment hostEnvironment)
         {
             
             services.AddCors(options =>
@@ -47,9 +47,15 @@ namespace blogApi
 
                 });
             });
-            
+
+            if (hostEnvironment.IsProduction())
+            {
                 services.AddDbContext<RepositoryContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+
+             services.AddDbContext<RepositoryContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
             
            
            
@@ -94,6 +100,7 @@ namespace blogApi
         {
             if (env.IsDevelopment())
             {
+                
                 app.UseDeveloperExceptionPage();
             }
 
