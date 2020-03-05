@@ -48,14 +48,8 @@ namespace blogApi
                 });
             });
 
-            if (hostEnvironment.IsProduction())
-            {
-                services.AddDbContext<RepositoryContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            }
-
              services.AddDbContext<RepositoryContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
            
            
