@@ -49,7 +49,7 @@ namespace blogApi
             });
 
              services.AddDbContext<RepositoryContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
            
            
