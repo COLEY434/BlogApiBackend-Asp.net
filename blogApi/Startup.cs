@@ -43,13 +43,13 @@ namespace blogApi
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://collinsblog.netlify.com").AllowAnyHeader();
+                    builder.WithOrigins("https://collinsblog.netlify.com", "http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
 
                 });
             });
 
              services.AddDbContext<RepositoryContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+               options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
             
            
            
