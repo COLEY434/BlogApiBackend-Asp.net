@@ -29,7 +29,7 @@ namespace blogApi.Controllers
         }
        
 
-        // Gets all users 
+        // Gets all users from the database
         [HttpGet]
         public async Task<IActionResult> GetUsersAsync()
         {
