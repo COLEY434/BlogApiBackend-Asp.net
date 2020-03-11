@@ -29,5 +29,12 @@ namespace blogApi.DAL.Post
 
             return result;
         }
+
+        public async Task<IEnumerable<Likes>> GetPostLikes(int postId)
+        {
+            var result = await FindByConditionWithTracking(x => x.post_Id == postId).ToListAsync();
+
+            return result;
+        }
     }
 }

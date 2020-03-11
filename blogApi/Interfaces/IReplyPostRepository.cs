@@ -8,6 +8,6 @@ namespace blogApi.Interfaces
 {
     public interface IReplyPostRepository : IBaseRepository<Replies>
     {
-        Task<IEnumerable<Replies>> GetPostComments(int id);
+        Task<IEnumerable<Replies>> GetPostComments(int postId);
     }
 }

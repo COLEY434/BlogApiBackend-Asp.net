@@ -10,5 +10,7 @@ namespace blogApi.Interfaces
     {
         Task<List<Likes>> GetLikesAsync();
         Task<Likes> checkIfLikeExist(int postId, int userId);
+
+        Task<IEnumerable<Likes>> GetPostLikes(int postId);
     }
 }

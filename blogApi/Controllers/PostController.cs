@@ -197,12 +197,15 @@ namespace blogApi.Controllers
                 }
 
                 var PostComments = await uow.Replies.GetPostComments(postId);
-
-                foreach(var comment in PostComments)
+                var PostLikes = await uow.Likes.GetPostLikes(postId);
+                foreach (var comment in PostComments)
                 {
                     uow.Replies.Delete(comment);
                 }
-                 
+                foreach (var like in PostLikes)
+                {
+                    uow.Likes.Delete(like);
+                }
                 uow.Post.Delete(post);
                 await uow.save();
 
