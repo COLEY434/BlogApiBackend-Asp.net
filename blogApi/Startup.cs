@@ -25,14 +25,17 @@ namespace blogApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
+            HostEnvironment = env;
         }
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
+
+        public IHostEnvironment HostEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -48,8 +51,17 @@ namespace blogApi
                 });
             });
 
-             services.AddDbContext<RepositoryContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            if (HostEnvironment.EnvironmentName == "Development")
+            {
+                services.AddDbContext<RepositoryContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("PostDatabase")));
+            }
+            else
+            {
+                services.AddDbContext<RepositoryContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+             
             
            
            
@@ -92,6 +104,7 @@ namespace blogApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 
