@@ -54,10 +54,12 @@ namespace blogApi.Controllers
 
                 if(checkIfLikeExists == null)
                 {
-                    var newLike = new Likes();
-                    newLike.post_Id = postId;
-                    newLike.user_Id = userId;
-                    newLike.liked = true;
+                    var newLike = new Likes
+                    {
+                        post_Id = postId,
+                        user_Id = userId,
+                        liked = true
+                    };
 
                     uow.Likes.Create(newLike);
                     await uow.save();
