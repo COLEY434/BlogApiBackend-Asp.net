@@ -61,10 +61,10 @@ namespace blogApi
                 services.AddDbContext<RepositoryContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
-             
-            
-           
-           
+
+
+
+
             services.AddControllers();
             
             

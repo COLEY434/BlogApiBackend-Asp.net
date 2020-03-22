@@ -16,6 +16,7 @@ namespace blogApi.DAL
         private IPostRepository _post;
         private IReplyPostRepository _replies;
         private ILikeRepository _likes;
+        private IFollowersRepository _followers;
 
 
         public RepositoriesUnitOfWork(RepositoryContext repositoryContext)
@@ -66,7 +67,19 @@ namespace blogApi.DAL
             }
         }
 
-       
+        public IFollowersRepository Followers
+        {
+            get
+            {
+                if(_followers == null)
+                {
+                    _followers = new FollowersRepository(RepositoryContext);
+                }
+                return _followers;
+            }
+        }
+
+
         public async Task save()
         {
             await RepositoryContext.SaveChangesAsync();

@@ -19,10 +19,12 @@ namespace blogApi.DAL
 
         public DbSet<Likes> likes { get; set; }
 
-
+        public DbSet<Followers> followers { get; set; }
         public DbSet<Replies> Replies { get; set; }
 
         public DbSet<GetPostReadDTO> GetPostReadDTO { get; set; }
+
+        public DbSet<FollowersAndFollowingDTO> FollowersAndFollowings { get; set; }
 
         //public DbSet<GetPostReadDTO> GetPostReadDto { get; set; }
 
@@ -41,6 +43,12 @@ namespace blogApi.DAL
                     options.ToTable("get_posts_single");
 
 
+                });
+            modelBuilder
+                .Entity<FollowersAndFollowingDTO>(options =>
+                {
+                    options.HasNoKey();
+                    options.ToTable("get_followers");
                 });
         }
     }

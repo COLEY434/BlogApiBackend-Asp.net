@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,9 @@ namespace blogApi.DTOS.WriteDTO
 {
     public class UserUpdateDTO
     {
+       
+        public IFormFile Photo { get; set; }
+
         [Required]
         public string Surname { get; set; }
 
@@ -19,15 +23,6 @@ namespace blogApi.DTOS.WriteDTO
 
         [Required]
         public string Email { get; set; }
-
-        [Required]
-        public int Age { get; set; }
-
-        [Required]
-        public string Gender { get; set; }
-
-        [Required]
-        public string State { get; set; }
 
         [Required]
         public string Country { get; set; }
