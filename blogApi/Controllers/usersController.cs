@@ -74,18 +74,18 @@ namespace blogApi.Controllers
         }
         
     [HttpPut]
-    [Route("change-profile/{UserId}")]
+    [Route("change-password/{UserId}")]
     public async Task<IActionResult> ChangeUserPasswordAsync([FromRoute] int UserId, [FromBody] ChangePassword passwordInfo)
     {
         try
         {
             var user = await uow.User.GetUserByIdT(UserId);
-            if (Convert.ToInt32(user.password) != passwordInfo.OldPassword)
+            if (user.password != passwordInfo.OldPassword)
             {
                 return Ok(new { success = false });
             }
 
-            user.password = passwordInfo.NewPassword.ToString();
+            user.password = passwordInfo.NewPassword;
             uow.User.Update(user);
             await uow.save();
 
@@ -134,6 +134,7 @@ namespace blogApi.Controllers
                                     await blobClient.UploadAsync(filetoupload);
                                     uri = blobClient.Uri.AbsoluteUri;
                                 }
+                               
 
                                 user.img_url = uri;
                                 user.updated_at = DateTime.Now;
@@ -202,7 +203,7 @@ namespace blogApi.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(ex.Message);
+                return Ok(new { success = false, message = "Internal server error, please contact support" });
             }
         }
 

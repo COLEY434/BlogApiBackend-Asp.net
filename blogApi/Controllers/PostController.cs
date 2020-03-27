@@ -51,13 +51,16 @@ namespace blogApi.Controllers
             try
             {
                 var AllPost = await uow.Post.GetUsersPostsAsync(userId);
-
-                return Ok(AllPost);
+                if (AllPost.Count() == 0)
+                {
+                    return Ok(new { success = false, message = "No Posts" });
+                }
+                return Ok(new { success = true, posts = AllPost });
             }
             catch (Exception ex)
             {
 
-                return Ok(ex.Message);
+                return Ok(new { success = false, message = "Sorry, internal server error, please contact customer support" });
             }
 
         }
