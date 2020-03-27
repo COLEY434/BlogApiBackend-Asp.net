@@ -99,7 +99,7 @@ namespace blogApi.Controllers
 
                 if(Followers.Count() == 0)
                 {
-                    return Ok(new { success = true, message = "No followers" });
+                    return Ok(new { success = false, message = "No followers" });
                 }
                 return Ok(new { success = true, followers = Followers });
             }

@@ -9,9 +9,9 @@ namespace blogApi.DTOS.WriteDTO
     public class ChangePassword
     {
         [Required]
-        public int OldPassword { get; set; }
+        public string OldPassword { get; set; }
 
         [Required]
-        public int NewPassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }
