@@ -119,7 +119,7 @@ namespace blogApi.Controllers
 
                 if (Followings.Count() == 0)
                 {
-                    return Ok(new { success = true, message = "No followings" });
+                    return Ok(new { success = false, message = "No followings" });
                 }
                 return Ok(new { success = true, followings = Followings });
             }
