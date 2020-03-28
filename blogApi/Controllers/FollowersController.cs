@@ -108,7 +108,7 @@ namespace blogApi.Controllers
                 return Ok(new { success = false, message = "Sorry, internal server error, please contact customer support" });
             }
         }
-
+        //getting user fellowings
         [HttpGet]
         [Route("get-followings/{userId}")]
         public async Task<IActionResult> GetFollowingsAsync([FromRoute] int userId)
