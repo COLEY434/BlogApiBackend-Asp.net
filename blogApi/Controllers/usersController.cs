@@ -121,7 +121,6 @@ namespace blogApi.Controllers
                         {
 
                             var NewFileNameForAzure = userId + "-" + Guid.NewGuid() + fileExtension;
-                            var connectionString = "DefaultEndpointsProtocol=https;AccountName=collinsazurestorage434;AccountKey=dlvvVNb0SC5AzAwHADZTy/+2h1xLSCnXDvu0huySWH56zVQBXnuISg6Q7LRTD9AZRtqW0R9yzGqUJFYhUtoAbA==;EndpointSuffix=core.windows.net";
                             //connect to azure storage
                             BlobContainerClient containerClient = new BlobContainerClient(connectionString, "img");
                             // Get a reference to a blob
